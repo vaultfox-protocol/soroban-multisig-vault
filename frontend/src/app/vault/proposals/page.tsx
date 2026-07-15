@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import clsx from "clsx";
-import { CheckCircle, XCircle, Play } from "lucide-react";
+import { CheckCircle, XCircle, Play, ChevronRight } from "lucide-react";
 
 interface ProposalDisplay {
   id: number;
@@ -69,21 +70,31 @@ export default function ProposalsPage() {
             </div>
 
             {/* Actions */}
-            {p.status === "Pending" && (
+            <div className="flex items-center justify-between gap-3">
               <div className="flex gap-3">
-                <button className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm transition-colors">
-                  <CheckCircle className="w-4 h-4" /> Approve
-                </button>
-                <button className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-red-400 border border-red-900 rounded-lg text-sm transition-colors">
-                  <XCircle className="w-4 h-4" /> Reject
-                </button>
+                {p.status === "Pending" && (
+                  <>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm transition-colors">
+                      <CheckCircle className="w-4 h-4" /> Approve
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-red-400 border border-red-900 rounded-lg text-sm transition-colors">
+                      <XCircle className="w-4 h-4" /> Reject
+                    </button>
+                  </>
+                )}
+                {p.status === "Approved" && (
+                  <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm transition-colors">
+                    <Play className="w-4 h-4" /> Execute
+                  </button>
+                )}
               </div>
-            )}
-            {p.status === "Approved" && (
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm transition-colors">
-                <Play className="w-4 h-4" /> Execute
-              </button>
-            )}
+              <Link
+                href={`/vault/proposals/${p.id}`}
+                className="flex items-center gap-1 text-xs text-gray-500 hover:text-emerald-400 transition-colors"
+              >
+                Details <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
         ))}
       </div>
